@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>redis(三)集群 | 迷糊博客</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="迷糊的博客，记录开发问题，解决日常小问题">
+    
+    <link rel="preload" href="/assets/css/0.styles.ac720142.css" as="style"><link rel="preload" href="/assets/js/app.5dab64d6.js" as="script"><link rel="preload" href="/assets/js/7.bbefbf10.js" as="script"><link rel="preload" href="/assets/js/2.0349392a.js" as="script"><link rel="preload" href="/assets/js/1.83566d30.js" as="script"><link rel="preload" href="/assets/js/79.f91dc5c5.js" as="script"><link rel="prefetch" href="/assets/js/10.3e842cb6.js"><link rel="prefetch" href="/assets/js/11.4c99791f.js"><link rel="prefetch" href="/assets/js/14.0b0c6253.js"><link rel="prefetch" href="/assets/js/15.d2ca7161.js"><link rel="prefetch" href="/assets/js/16.1d522888.js"><link rel="prefetch" href="/assets/js/17.d9669e93.js"><link rel="prefetch" href="/assets/js/18.34c83be0.js"><link rel="prefetch" href="/assets/js/19.ebf4d991.js"><link rel="prefetch" href="/assets/js/20.bba0bcfb.js"><link rel="prefetch" href="/assets/js/21.988faded.js"><link rel="prefetch" href="/assets/js/22.ad121b6e.js"><link rel="prefetch" href="/assets/js/23.978eaf3a.js"><link rel="prefetch" href="/assets/js/24.804898be.js"><link rel="prefetch" href="/assets/js/25.54aca470.js"><link rel="prefetch" href="/assets/js/26.41565a57.js"><link rel="prefetch" href="/assets/js/27.ce6a8795.js"><link rel="prefetch" href="/assets/js/28.553d7ab5.js"><link rel="prefetch" href="/assets/js/29.988246ec.js"><link rel="prefetch" href="/assets/js/3.51a475f0.js"><link rel="prefetch" href="/assets/js/30.c90c4bbc.js"><link rel="prefetch" href="/assets/js/31.aa085ec1.js"><link rel="prefetch" href="/assets/js/32.bd390df8.js"><link rel="prefetch" href="/assets/js/33.8ba5d925.js"><link rel="prefetch" href="/assets/js/34.28bf7738.js"><link rel="prefetch" href="/assets/js/35.f0cd5f0f.js"><link rel="prefetch" href="/assets/js/36.ae5fa301.js"><link rel="prefetch" href="/assets/js/37.daa65bee.js"><link rel="prefetch" href="/assets/js/38.9a1e1d8a.js"><link rel="prefetch" href="/assets/js/39.d33ac7a3.js"><link rel="prefetch" href="/assets/js/4.657b2931.js"><link rel="prefetch" href="/assets/js/40.882feada.js"><link rel="prefetch" href="/assets/js/41.182dc9a5.js"><link rel="prefetch" href="/assets/js/42.84c51228.js"><link rel="prefetch" href="/assets/js/43.625e37c1.js"><link rel="prefetch" href="/assets/js/44.ed6bc425.js"><link rel="prefetch" href="/assets/js/45.5c40e17e.js"><link rel="prefetch" href="/assets/js/46.7103d11e.js"><link rel="prefetch" href="/assets/js/47.7532d794.js"><link rel="prefetch" href="/assets/js/48.e3734787.js"><link rel="prefetch" href="/assets/js/49.4d2d86d0.js"><link rel="prefetch" href="/assets/js/5.662bba95.js"><link rel="prefetch" href="/assets/js/50.880f0a24.js"><link rel="prefetch" href="/assets/js/51.dfe21b45.js"><link rel="prefetch" href="/assets/js/52.32bcb565.js"><link rel="prefetch" href="/assets/js/53.b01dcb6a.js"><link rel="prefetch" href="/assets/js/54.0f89ec9d.js"><link rel="prefetch" href="/assets/js/55.cc5f0530.js"><link rel="prefetch" href="/assets/js/56.aa515025.js"><link rel="prefetch" href="/assets/js/57.e6fa3921.js"><link rel="prefetch" href="/assets/js/58.56c4ea02.js"><link rel="prefetch" href="/assets/js/59.6cd13486.js"><link rel="prefetch" href="/assets/js/6.cd0ff48c.js"><link rel="prefetch" href="/assets/js/60.da315b51.js"><link rel="prefetch" href="/assets/js/61.686ef33c.js"><link rel="prefetch" href="/assets/js/62.55de575e.js"><link rel="prefetch" href="/assets/js/63.6e8598cd.js"><link rel="prefetch" href="/assets/js/64.cd612323.js"><link rel="prefetch" href="/assets/js/65.3683d7ac.js"><link rel="prefetch" href="/assets/js/66.bfe37531.js"><link rel="prefetch" href="/assets/js/67.5d7328e4.js"><link rel="prefetch" href="/assets/js/68.33429950.js"><link rel="prefetch" href="/assets/js/69.009b9eb5.js"><link rel="prefetch" href="/assets/js/70.a232ef3c.js"><link rel="prefetch" href="/assets/js/71.c01c3b6d.js"><link rel="prefetch" href="/assets/js/72.a7bd88e5.js"><link rel="prefetch" href="/assets/js/73.e06252a8.js"><link rel="prefetch" href="/assets/js/74.89926410.js"><link rel="prefetch" href="/assets/js/75.b07f8858.js"><link rel="prefetch" href="/assets/js/76.be9d282d.js"><link rel="prefetch" href="/assets/js/77.3114b117.js"><link rel="prefetch" href="/assets/js/78.45be3e1c.js"><link rel="prefetch" href="/assets/js/8.77d757b7.js"><link rel="prefetch" href="/assets/js/80.c5215798.js"><link rel="prefetch" href="/assets/js/81.febd1eb6.js"><link rel="prefetch" href="/assets/js/82.29b76d1b.js"><link rel="prefetch" href="/assets/js/83.276a540e.js"><link rel="prefetch" href="/assets/js/84.253678c5.js"><link rel="prefetch" href="/assets/js/85.7538ca66.js"><link rel="prefetch" href="/assets/js/86.73f5346d.js"><link rel="prefetch" href="/assets/js/87.54bcf50b.js"><link rel="prefetch" href="/assets/js/88.fdceb42d.js"><link rel="prefetch" href="/assets/js/89.f93963bf.js"><link rel="prefetch" href="/assets/js/9.7e8f5c25.js"><link rel="prefetch" href="/assets/js/90.3d384377.js"><link rel="prefetch" href="/assets/js/91.32d0e21c.js"><link rel="prefetch" href="/assets/js/92.32559283.js"><link rel="prefetch" href="/assets/js/93.b62056d1.js"><link rel="prefetch" href="/assets/js/94.d1e4067f.js"><link rel="prefetch" href="/assets/js/95.ed6411e8.js"><link rel="prefetch" href="/assets/js/96.c4f74433.js"><link rel="prefetch" href="/assets/js/97.7e11a4b8.js"><link rel="prefetch" href="/assets/js/98.0183792d.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.a3d83172.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.ac720142.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-7dd95ae2><div data-v-7dd95ae2><div class="password-shadow password-wrapper-out" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>迷糊笔记</h3> <p class="description" data-v-59e6cb88>迷糊的博客，记录开发问题，解决日常小问题</p> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><span data-v-59e6cb88>恶作剧</span>
+          
+        <!---->
+        2025
+      </a></span></div></div> <div class="hide" data-v-7dd95ae2><header class="navbar" data-v-7dd95ae2><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/logo.png" alt="迷糊博客" class="logo"> <span class="site-name">迷糊博客</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link"><i class="undefined"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/database/" class="nav-link"><i class="undefined"></i>
+  database
+</a></li><li class="dropdown-item"><!----> <a href="/categories/hodoop/" class="nav-link"><i class="undefined"></i>
+  hodoop
+</a></li><li class="dropdown-item"><!----> <a href="/categories/go/" class="nav-link"><i class="undefined"></i>
+  go
+</a></li><li class="dropdown-item"><!----> <a href="/categories/java/" class="nav-link"><i class="undefined"></i>
+  java
+</a></li><li class="dropdown-item"><!----> <a href="/categories/learn/" class="nav-link"><i class="undefined"></i>
+  learn
+</a></li><li class="dropdown-item"><!----> <a href="/categories/linux/" class="nav-link"><i class="undefined"></i>
+  linux
+</a></li><li class="dropdown-item"><!----> <a href="/categories/docker/" class="nav-link"><i class="undefined"></i>
+  docker
+</a></li><li class="dropdown-item"><!----> <a href="/categories/redis/" class="nav-link"><i class="undefined"></i>
+  redis
+</a></li><li class="dropdown-item"><!----> <a href="/categories/mq/" class="nav-link"><i class="undefined"></i>
+  mq
+</a></li><li class="dropdown-item"><!----> <a href="/categories/springBoot/" class="nav-link"><i class="undefined"></i>
+  springBoot
+</a></li><li class="dropdown-item"><!----> <a href="/categories/mac/" class="nav-link"><i class="undefined"></i>
+  mac
+</a></li><li class="dropdown-item"><!----> <a href="/categories/web/" class="nav-link"><i class="undefined"></i>
+  web
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  Tag
+</a></div><div class="nav-item"><a href="http://chat.onceprank.cn" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  chatGpt
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/prank-xcw/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-7dd95ae2></div> <aside class="sidebar" data-v-7dd95ae2><div class="personal-info-wrapper" data-v-1fad0c41 data-v-7dd95ae2><img src="/avatar.jpg" alt="author-avatar" class="personal-img" data-v-1fad0c41> <h3 class="name" data-v-1fad0c41>
+    恶作剧
+  </h3> <div class="num" data-v-1fad0c41><div data-v-1fad0c41><h3 data-v-1fad0c41>58</h3> <h6 data-v-1fad0c41>文章</h6></div> <div data-v-1fad0c41><h3 data-v-1fad0c41>29</h3> <h6 data-v-1fad0c41>标签</h6></div></div> <ul class="social-links" data-v-1fad0c41><li class="social-item" data-v-1fad0c41><i class="iconfont reco-github" style="color:#f8b26a;" data-v-1fad0c41></i></li></ul> <hr data-v-1fad0c41></div> <nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link"><i class="undefined"></i>
+  主页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      博客
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/categories/database/" class="nav-link"><i class="undefined"></i>
+  database
+</a></li><li class="dropdown-item"><!----> <a href="/categories/hodoop/" class="nav-link"><i class="undefined"></i>
+  hodoop
+</a></li><li class="dropdown-item"><!----> <a href="/categories/go/" class="nav-link"><i class="undefined"></i>
+  go
+</a></li><li class="dropdown-item"><!----> <a href="/categories/java/" class="nav-link"><i class="undefined"></i>
+  java
+</a></li><li class="dropdown-item"><!----> <a href="/categories/learn/" class="nav-link"><i class="undefined"></i>
+  learn
+</a></li><li class="dropdown-item"><!----> <a href="/categories/linux/" class="nav-link"><i class="undefined"></i>
+  linux
+</a></li><li class="dropdown-item"><!----> <a href="/categories/docker/" class="nav-link"><i class="undefined"></i>
+  docker
+</a></li><li class="dropdown-item"><!----> <a href="/categories/redis/" class="nav-link"><i class="undefined"></i>
+  redis
+</a></li><li class="dropdown-item"><!----> <a href="/categories/mq/" class="nav-link"><i class="undefined"></i>
+  mq
+</a></li><li class="dropdown-item"><!----> <a href="/categories/springBoot/" class="nav-link"><i class="undefined"></i>
+  springBoot
+</a></li><li class="dropdown-item"><!----> <a href="/categories/mac/" class="nav-link"><i class="undefined"></i>
+  mac
+</a></li><li class="dropdown-item"><!----> <a href="/categories/web/" class="nav-link"><i class="undefined"></i>
+  web
+</a></li></ul></div></div><div class="nav-item"><a href="/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  Tag
+</a></div><div class="nav-item"><a href="http://chat.onceprank.cn" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  chatGpt
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://github.com/prank-xcw/" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>redis(三)集群</h3> <!----> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><span data-v-59e6cb88>恶作剧</span>
+          
+        <!---->
+        2025
+      </a></span></div></div> <div data-v-7dd95ae2><div data-v-7dd95ae2><main class="page"><section style="display:;"><div class="page-title"><h1 class="title">redis(三)集群</h1> <div data-v-8a445198><i class="iconfont reco-account" data-v-8a445198><span data-v-8a445198>恶作剧</span></i> <!----> <!----> <i class="tags iconfont reco-tag" data-v-8a445198><span class="tag-item" data-v-8a445198>redis</span></i></div></div> <div class="content__default"><h2 id="redis安装"><a href="#redis安装" class="header-anchor">#</a> redis安装</h2> <p>linux：https://redis.io/download</p> <p>windows: https://github.com/MicrosoftArchive/redis/releases</p> <p>远程工具：https://github.com/qishibo/AnotherRedisDesktopManager/releases</p> <blockquote><p>本文采用redis7.2.6版本搭建</p></blockquote> <h2 id="主从复制"><a href="#主从复制" class="header-anchor">#</a> 主从复制</h2> <p>主从复制将redis服务器隔离开，一个主节点（master）用于写入，多个从节点（slave）只可读</p> <p><strong>新增conf文件：6380、6381、6382</strong></p> <p>复制以下文件内容，修改不为不同端口，不同日志文件</p> <blockquote><p>prot 6379</p> <p>pidfile /var/run/redis_6380.pid</p> <p>dbfilename dump6380.rdb</p> <p>appendfilename &quot;6380.aof&quot;</p></blockquote> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token comment">################################## NETWORK #####################################</span>
+<span class="token comment">#绑定ip</span>
+<span class="token comment">#bind 127.0.0.1 ::1</span>
+<span class="token comment">#bind 0.0.0.0</span>
+
+<span class="token comment">#保护模式</span>
+protected-mode no
+
+<span class="token comment">#端口设置6380</span>
+port <span class="token number">6380</span>
+
+<span class="token comment">#密码</span>
+requirepass <span class="token string">&quot;xcw1017!&quot;</span>
+
+tcp-backlog <span class="token number">511</span>
+
+<span class="token comment"># 它可以决定一个空闲的客户端维持多少秒会关闭 0禁用</span>
+<span class="token function">timeout</span> <span class="token number">0</span>
+
+<span class="token comment"># 对访问客户端的一种心跳检测，每个n秒检测一次。单位为秒，如果设置为0，则不会进行Keepalive检测</span>
+tcp-keepalive <span class="token number">300</span>
+
+<span class="token comment">################################# GENERAL #####################################</span>
+<span class="token comment"># 以守护进程的方式运行，默认no</span>
+daemonize <span class="token function">yes</span>
+
+<span class="token comment"># 如果以后台的方式运行，我们就需要指定一个pid文件！</span>
+pidfile /var/run/redis_6380.pid
+
+<span class="token comment"># 指定服务器冗长级别.</span>
+<span class="token comment"># debug (大量的信息，对开发/测试很有用)</span>
+<span class="token comment"># verbose (许多很少有用的信息，但不像debug级别那样混乱)</span>
+<span class="token comment"># notice (稍微冗长一些，可能是您在生产环境中需要的)</span>
+<span class="token comment"># warning (只记录非常重要/关键的消息)</span>
+loglevel notice
+
+<span class="token comment"># 指定日志文件名</span>
+logfile <span class="token string">&quot;&quot;</span>
+
+<span class="token comment"># 数据库数量默认16个</span>
+databases <span class="token number">16</span>
+
+<span class="token comment"># 是否总显示logo</span>
+always-show-logo no
+
+<span class="token comment"># 默认情况下，Redis 会修改进程标题（如“top”和“ps”所示）以提供一些运行时信息。 可以通过将以下设置为 no 来禁用它并使进程名称保持为已执行状态。</span>
+set-proc-title <span class="token function">yes</span>
+
+<span class="token comment">#  更改进程标题时，Redis 使用以下模板来构造修改后的标题</span>
+<span class="token comment">#</span>
+<span class="token comment"># {title}           父进程执行的进程名称，或子进程的类型.</span>
+<span class="token comment"># {listen-addr}     绑定地址或 ‘*’ 后跟 TCP 或 TLS 端口侦听，或 Unix 套接字（如果可用）</span>
+<span class="token comment"># {server-mode}     特殊模式，即“[sentinel]”或“[cluster]”</span>
+<span class="token comment"># {port}            TCP 端口监听，或 0</span>
+<span class="token comment"># {tls-port}        TLS 端口监听，或 0</span>
+<span class="token comment"># {unixsocket}      监听的 Unix 域套接字，或 “”.</span>
+<span class="token comment"># {config-file}     使用的配置文件的名称.</span>
+<span class="token comment">#</span>
+proc-title-template <span class="token string">&quot;{title} {listen-addr} {server-mode}&quot;</span>
+
+<span class="token comment">################################ 快照  ################################</span>
+
+<span class="token comment"># 持久化，将数据库保存到磁盘。AOF和RDB持久化实例.</span>
+save <span class="token number">3600</span> <span class="token number">1</span>
+save <span class="token number">300</span> <span class="token number">100</span>
+save <span class="token number">60</span> <span class="token number">50</span>
+<span class="token comment"># save &lt;seconds&gt; &lt;changes&gt; [&lt;seconds&gt; &lt;changes&gt; ...]</span>
+
+<span class="token comment"># 可以使用单个空字符串参数完全禁用快照</span>
+<span class="token comment"># save &quot;&quot;</span>
+
+<span class="token comment">#   * 3600 秒（一小时）后，如果至少 1 个键发生了变化</span>
+<span class="token comment"># save 3600 1</span>
+
+<span class="token comment">#   * 300 秒（5 分钟）后，如果至少有 100 个键被更改</span>
+<span class="token comment"># save 300 100</span>
+
+<span class="token comment">#   * 60 秒后，如果至少有 10000 个键被更改</span>
+<span class="token comment"># save 60 10000</span>
+
+
+<span class="token comment"># 持久化出错如果出错，是否需要继续工作！</span>
+stop-writes-on-bgsave-error <span class="token function">yes</span>
+
+<span class="token comment"># 是否压缩 rdb 文件，需要消耗一些 CPU 资源</span>
+rdbcompression <span class="token function">yes</span>
+
+<span class="token comment"># 保存 rdb 文件，进行错误的检查检验！</span>
+rdbchecksum <span class="token function">yes</span>
+
+<span class="token comment"># rdb文件名</span>
+dbfilename dump6380.rdb
+
+<span class="token comment"># 删除非持久化实例中复制使用的RDB文件</span>
+rdb-del-sync-files no
+
+<span class="token comment"># rdb 文件的保存目录</span>
+<span class="token function">dir</span> /opt/homebrew/etc/redis/db/  
+
+<span class="token comment">################################# 主从复制 #################################</span>
+<span class="token comment"># replicaof &lt;masterip&gt; &lt;masterport&gt;</span>
+
+<span class="token comment"># 如果主节点设置了密码，则设置访问主节点的密码</span>
+masterauth <span class="token string">&quot;xcw1017!&quot;</span>
+
+
+<span class="token comment"># 用于配置链接主服务器的用户，默认用户无法运行PSYNC，最好提供一个特殊的用户。</span>
+<span class="token comment"># masteruser &lt;username&gt;</span>
+
+replica-serve-stale-data <span class="token function">yes</span>
+
+<span class="token comment"># 主从时期，从库是否只读，默认yes（只读）。非只读可以存储一些临时数据（在主从同步时会覆盖存储的数据）</span>
+replica-read-only <span class="token function">yes</span>
+
+<span class="token comment"># 主从数据复制同步策划：文件或套接字，默认为套接字传输数据</span>
+repl-diskless-sync <span class="token function">yes</span>
+
+<span class="token comment"># 当启用无硬盘备份，服务器等待一段时间后才会通过套接字向从节点传送RDB文件，这个等待时间是可配置的。 </span>
+<span class="token comment"># 一旦传输备份数据开始，主节点不会再接收新从节点的复制请求直到下一个rdb传输。</span>
+<span class="token comment"># 从节点节点徐要排队等待下一次RDB传送。因此服务器等待一段时间以期更多的从节点获取到连接。</span>
+<span class="token comment"># 延迟时间以秒为单位，默认为5秒。要关掉这一功能，只需将它设置为0秒，传送会立即启动</span>
+repl-diskless-sync-delay <span class="token number">5</span>
+
+<span class="token comment"># 当启用无硬盘备份，服务器等待一段时间后内，如果达到预期的最大副本连接数则可以直接开始传送</span>
+<span class="token comment"># 0 ~ 无限大 （正整数）。 默认 0</span>
+repl-diskless-sync-max-replicas <span class="token number">0</span>
+
+<span class="token comment"># RDB文件落在Slave磁盘上模式， 直接从socket获取rdb数据，是需要拿到完整的rdb数据才开始进行同步</span>
+<span class="token comment"># disable 不使用无硬盘方案  </span>
+<span class="token comment"># on-empty-db 只有在完全安全才使用无硬盘      </span>
+<span class="token comment"># swapdb 在解析socket的rdb数据时，将当前数据库的数据放到内存中，这样可以在复制的时候为客户端提供服务，但是可能会造成内存溢出</span>
+repl-diskless-load disabled
+
+<span class="token comment"># 同步之后是否禁用从节点上的TCP_NODELAY。</span>
+<span class="token comment"># yes，redis会使用较少量的TCP包和带宽向从节点发送数据。但这可能会增加从节点的数据的延迟，Linux 内核使用默认最长40毫秒 。</span>
+<span class="token comment"># no，从节点的数据延时不会那么多，但备份需要的带宽相对较多。</span>
+<span class="token comment"># 默认情况下我们将潜在因素优化，但在高负载情况下或者在主从节点都跳的情况下，把它设置为yes更好。默认值为no。</span>
+repl-disable-tcp-nodelay no
+
+<span class="token comment"># 从redis设置升级主节点的优先级，在主redis持续不正常工作的情况下，优先级高的redis会升级为主节点。</span>
+<span class="token comment"># 编号越小，优先级越高。当优先级设置为0，则永远不会被选中。默认的优先级为100。</span>
+replica-priority <span class="token number">100</span>
+
+
+
+<span class="token comment">################################## SECURITY ###################################</span>
+
+<span class="token comment"># ACL日志大小。ACL日志跟踪与ACL关联的失败命令和身份验证事件。ACL 日志存储在内存中。 在下面定义 ACL 日志的最大条目长度</span>
+acllog-max-len <span class="token number">128</span>
+
+
+
+lazyfree-lazy-eviction no
+lazyfree-lazy-expire no
+lazyfree-lazy-server-del no
+replica-lazy-flush no
+
+<span class="token comment"># It is also possible, for the case when to replace the user code DEL calls</span>
+<span class="token comment"># with UNLINK calls is not easy, to modify the default behavior of the DEL</span>
+<span class="token comment"># command to act exactly like UNLINK, using the following configuration</span>
+<span class="token comment"># directive:</span>
+
+lazyfree-lazy-user-del no
+
+<span class="token comment"># FLUSHDB, FLUSHALL, SCRIPT FLUSH and FUNCTION FLUSH support both asynchronous and synchronous</span>
+<span class="token comment"># deletion, which can be controlled by passing the [SYNC|ASYNC] flags into the</span>
+<span class="token comment"># commands. When neither flag is passed, this directive will be used to determine</span>
+<span class="token comment"># if the data should be deleted asynchronously.</span>
+
+lazyfree-lazy-user-flush no
+
+<span class="token comment"># 内存不足时杀死哪些进程</span>
+<span class="token comment"># no: 在所有其他进程之前先杀死后台子进程，并且在主进程之前杀死其他进程 《默认》。</span>
+<span class="token comment"># yes: 相对的。是 relative 选择的别名。</span>
+<span class="token comment"># absolute: 超过 oom-score-adj-values 值时内存泄漏。</span>
+<span class="token comment"># relative: 服务器启动，将值改为 -1000 ~ 1000 的范围内。</span>
+oom-score-adj no
+
+<span class="token comment"># oom-score-adj设置absolute生效，此指令控制用于主进程、副本进程和后台子进程的特定值。数值范围为-2000到2000（越高意味着越有可能被杀死）</span>
+oom-score-adj-values <span class="token number">0</span> <span class="token number">200</span> <span class="token number">800</span>
+
+
+<span class="token comment">#################### KERNEL transparent hugepage CONTROL ######################</span>
+
+<span class="token comment"># 帮助用户检查和解决可能的数据查询延迟的数据。</span>
+disable-thp <span class="token function">yes</span>
+
+<span class="token comment">############################## APPEND ONLY MODE  AOF持久化###############################</span>
+
+<span class="token comment"># 是否开启AOF持久化</span>
+appendonly <span class="token function">yes</span>
+
+<span class="token comment"># 文件名称</span>
+appendfilename <span class="token string">&quot;6380.aof&quot;</span>
+
+<span class="token comment">#aof文件目录</span>
+appenddirname <span class="token string">&quot;appendonlydir&quot;</span>
+
+<span class="token comment"># 持久化同步策略   </span>
+<span class="token comment"># everysec：每秒执行，发送异常时可能会丢失最后一秒的数据。</span>
+<span class="token comment"># always：每次写操作执行，数据最安全，但是对性能有影响。</span>
+<span class="token comment"># no：不强制刷盘，不主动同步数据，由内核决定什么时候刷盘，数据最不安全，性能最好。</span>
+appendfsync everysec
+
+<span class="token comment"># 在重写时是否持久化aof文件。在aof重写或者写入rdb文件的时候，会执行大量IO，此时对于everysec和always的aof模式来说，</span>
+<span class="token comment"># 执行fsync会造成阻塞过长时间，所以设置no-appendfsync-on-rewrite为no。</span>
+<span class="token comment"># 如果对延迟要求很高的应用，这个字段可以设置为yes，否则设置为no，这样对持久化特性来说是更安全的选择。</span>
+<span class="token comment"># 设置为yes表示rewrite期间对新写操作不fsync,暂时存在内存中,等rewrite完成后再写入aof文件。</span>
+<span class="token comment"># Linux的默认fsync策略是30秒。默认值为no，可能丢失30秒内数据</span>
+no-appendfsync-on-rewrite no
+
+
+<span class="token comment"># 自动重写AOF文件 </span>
+<span class="token comment"># 在AOF文件大小增长到了指定的百分比（相对于上次AOF文件大小的增长量）或者指定的最小体积时，会自动调用BGREWRITEAOF命令重写AOF文件。</span>
+auto-aof-rewrite-percentage <span class="token number">100</span>
+auto-aof-rewrite-min-size 64mb
+
+<span class="token comment"># AOF文件末尾截断时的处理策略。在服务意外中断是会导致aof文件的内存被截断（不完整），重启服务时时候加载aof文件。</span>
+<span class="token comment"># yes，即使文件发生了截断也要加载文件。</span>
+<span class="token comment"># no：如果AOF文件发生了截断，启动服务时会拒绝启动。</span>
+aof-load-truncated <span class="token function">yes</span>
+
+<span class="token comment"># 开启混合持久化（使用aof持久化同时使用rdb存储数据)</span>
+aof-use-rdb-preamble <span class="token function">yes</span>
+
+<span class="token comment"># Redis支持AOF中记录时间戳，支持特定时间点的恢复数据，但是可能会与现有的AOF解析器不兼容的方式更改AOF格式</span>
+aof-timestamp-enabled no
+
+<span class="token comment">################################## SLOW LOG ###################################</span>
+<span class="token comment"># 慢日志记录阈值。命令执行时间超过这个值就会被记录到慢日志中，默认值是10000微秒。下面的时间用微秒表示，所以1000000相当于一秒</span>
+slowlog-log-slower-than <span class="token number">10000</span>
+<span class="token comment"># 慢日志文件大小。慢日志文件超过这个长度后最旧的记录会被删除，默认值是128条</span>
+slowlog-max-len <span class="token number">128</span>
+
+<span class="token comment">################################ LATENCY MONITOR ##############################</span>
+latency-monitor-threshold <span class="token number">0</span>
+
+
+<span class="token comment">############################# EVENT NOTIFICATION  事件通知管理##############################</span>
+
+<span class="token comment"># Redis 可以通知 Pub/Sub 客户端有关key缓存数据中发生的事件</span>
+notify-keyspace-events <span class="token string">&quot;&quot;</span>
+
+<span class="token comment">############################### ADVANCED CONFIG ###############################</span>
+
+<span class="token comment"># 哈希在条目数量较少且最大条目不超过给定阈值时，哈希使用内存高效数据结构进行编码</span>
+hash-max-listpack-entries <span class="token number">512</span>
+hash-max-listpack-value <span class="token number">64</span>
+
+<span class="token comment"># 性能最高的选项通常是 -2（8 Kb 大小）或 -1（4 Kb 大小）</span>
+list-max-listpack-size <span class="token parameter variable">-2</span>
+
+<span class="token comment">#  </span>
+list-compress-depth <span class="token number">0</span>
+
+<span class="token comment"># 当集合（Set）仅由恰好是基数为10的64位有符号整数范围内的整数的字符串组成时，集合使用特殊编码</span>
+set-max-intset-entries <span class="token number">512</span>
+
+<span class="token comment"># 散列hash和列表list类似，排序集也经过特殊编码，以节省大量空间。此编码仅在排序集的长度和元素低于以下限制时使用</span>
+zset-max-listpack-entries <span class="token number">128</span>
+zset-max-listpack-value <span class="token number">64</span>
+
+<span class="token comment"># HyperLogLog sparse representation bytes limit. The limit includes the</span>
+<span class="token comment"># 16 bytes header. When an HyperLogLog using the sparse representation crosses</span>
+<span class="token comment"># this limit, it is converted into the dense representation.</span>
+<span class="token comment">#</span>
+<span class="token comment"># A value greater than 16000 is totally useless, since at that point the</span>
+<span class="token comment"># dense representation is more memory efficient.</span>
+<span class="token comment">#</span>
+<span class="token comment"># The suggested value is ~ 3000 in order to have the benefits of</span>
+<span class="token comment"># the space efficient encoding without slowing down too much PFADD,</span>
+<span class="token comment"># which is O(N) with the sparse encoding. The value can be raised to</span>
+<span class="token comment"># ~ 10000 when CPU is not a concern, but space is, and the data set is</span>
+<span class="token comment"># composed of many HyperLogLogs with cardinality in the 0 - 15000 range.</span>
+hll-sparse-max-bytes <span class="token number">3000</span>
+
+<span class="token comment"># 单位为 Byte，默认值 4096，用于设定每个宏节点占用的内存上限为 4096，0 表示无限制。</span>
+stream-node-max-bytes <span class="token number">4096</span>
+<span class="token comment"># 设定每个宏节点存储元素个数。</span>
+stream-node-max-entries <span class="token number">100</span>
+
+<span class="token comment"># </span>
+activerehashing <span class="token function">yes</span>
+
+<span class="token comment"># </span>
+client-output-buffer-limit normal <span class="token number">0</span> <span class="token number">0</span> <span class="token number">0</span>
+client-output-buffer-limit replica 256mb 64mb <span class="token number">60</span>
+client-output-buffer-limit pubsub 32mb 8mb <span class="token number">60</span>
+
+<span class="token comment"># .</span>
+hz <span class="token number">10</span>
+
+<span class="token comment"># .</span>
+dynamic-hz <span class="token function">yes</span>
+
+<span class="token comment"># 当重写AOF文件时，如果启用以下选项，则每生成4 MB的数据，就会对文件进行fsync。这对于更增量地将文件提交到磁盘并避免大的延迟峰值非常有用.</span>
+aof-rewrite-incremental-fsync <span class="token function">yes</span>
+
+<span class="token comment"># 当redis保存RDB文件时，如果启用以下选项，则每生成4MB的数据就会对该文件进行fsync。这对于更增量地将文件提交到磁盘并避免大的延迟峰值非常有用</span>
+rdb-save-incremental-fsync <span class="token function">yes</span>
+
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br><span class="line-number">107</span><br><span class="line-number">108</span><br><span class="line-number">109</span><br><span class="line-number">110</span><br><span class="line-number">111</span><br><span class="line-number">112</span><br><span class="line-number">113</span><br><span class="line-number">114</span><br><span class="line-number">115</span><br><span class="line-number">116</span><br><span class="line-number">117</span><br><span class="line-number">118</span><br><span class="line-number">119</span><br><span class="line-number">120</span><br><span class="line-number">121</span><br><span class="line-number">122</span><br><span class="line-number">123</span><br><span class="line-number">124</span><br><span class="line-number">125</span><br><span class="line-number">126</span><br><span class="line-number">127</span><br><span class="line-number">128</span><br><span class="line-number">129</span><br><span class="line-number">130</span><br><span class="line-number">131</span><br><span class="line-number">132</span><br><span class="line-number">133</span><br><span class="line-number">134</span><br><span class="line-number">135</span><br><span class="line-number">136</span><br><span class="line-number">137</span><br><span class="line-number">138</span><br><span class="line-number">139</span><br><span class="line-number">140</span><br><span class="line-number">141</span><br><span class="line-number">142</span><br><span class="line-number">143</span><br><span class="line-number">144</span><br><span class="line-number">145</span><br><span class="line-number">146</span><br><span class="line-number">147</span><br><span class="line-number">148</span><br><span class="line-number">149</span><br><span class="line-number">150</span><br><span class="line-number">151</span><br><span class="line-number">152</span><br><span class="line-number">153</span><br><span class="line-number">154</span><br><span class="line-number">155</span><br><span class="line-number">156</span><br><span class="line-number">157</span><br><span class="line-number">158</span><br><span class="line-number">159</span><br><span class="line-number">160</span><br><span class="line-number">161</span><br><span class="line-number">162</span><br><span class="line-number">163</span><br><span class="line-number">164</span><br><span class="line-number">165</span><br><span class="line-number">166</span><br><span class="line-number">167</span><br><span class="line-number">168</span><br><span class="line-number">169</span><br><span class="line-number">170</span><br><span class="line-number">171</span><br><span class="line-number">172</span><br><span class="line-number">173</span><br><span class="line-number">174</span><br><span class="line-number">175</span><br><span class="line-number">176</span><br><span class="line-number">177</span><br><span class="line-number">178</span><br><span class="line-number">179</span><br><span class="line-number">180</span><br><span class="line-number">181</span><br><span class="line-number">182</span><br><span class="line-number">183</span><br><span class="line-number">184</span><br><span class="line-number">185</span><br><span class="line-number">186</span><br><span class="line-number">187</span><br><span class="line-number">188</span><br><span class="line-number">189</span><br><span class="line-number">190</span><br><span class="line-number">191</span><br><span class="line-number">192</span><br><span class="line-number">193</span><br><span class="line-number">194</span><br><span class="line-number">195</span><br><span class="line-number">196</span><br><span class="line-number">197</span><br><span class="line-number">198</span><br><span class="line-number">199</span><br><span class="line-number">200</span><br><span class="line-number">201</span><br><span class="line-number">202</span><br><span class="line-number">203</span><br><span class="line-number">204</span><br><span class="line-number">205</span><br><span class="line-number">206</span><br><span class="line-number">207</span><br><span class="line-number">208</span><br><span class="line-number">209</span><br><span class="line-number">210</span><br><span class="line-number">211</span><br><span class="line-number">212</span><br><span class="line-number">213</span><br><span class="line-number">214</span><br><span class="line-number">215</span><br><span class="line-number">216</span><br><span class="line-number">217</span><br><span class="line-number">218</span><br><span class="line-number">219</span><br><span class="line-number">220</span><br><span class="line-number">221</span><br><span class="line-number">222</span><br><span class="line-number">223</span><br><span class="line-number">224</span><br><span class="line-number">225</span><br><span class="line-number">226</span><br><span class="line-number">227</span><br><span class="line-number">228</span><br><span class="line-number">229</span><br><span class="line-number">230</span><br><span class="line-number">231</span><br><span class="line-number">232</span><br><span class="line-number">233</span><br><span class="line-number">234</span><br><span class="line-number">235</span><br><span class="line-number">236</span><br><span class="line-number">237</span><br><span class="line-number">238</span><br><span class="line-number">239</span><br><span class="line-number">240</span><br><span class="line-number">241</span><br><span class="line-number">242</span><br><span class="line-number">243</span><br><span class="line-number">244</span><br><span class="line-number">245</span><br><span class="line-number">246</span><br><span class="line-number">247</span><br><span class="line-number">248</span><br><span class="line-number">249</span><br><span class="line-number">250</span><br><span class="line-number">251</span><br><span class="line-number">252</span><br><span class="line-number">253</span><br><span class="line-number">254</span><br><span class="line-number">255</span><br><span class="line-number">256</span><br><span class="line-number">257</span><br><span class="line-number">258</span><br><span class="line-number">259</span><br><span class="line-number">260</span><br><span class="line-number">261</span><br><span class="line-number">262</span><br><span class="line-number">263</span><br><span class="line-number">264</span><br><span class="line-number">265</span><br><span class="line-number">266</span><br><span class="line-number">267</span><br><span class="line-number">268</span><br><span class="line-number">269</span><br><span class="line-number">270</span><br><span class="line-number">271</span><br><span class="line-number">272</span><br><span class="line-number">273</span><br><span class="line-number">274</span><br><span class="line-number">275</span><br><span class="line-number">276</span><br><span class="line-number">277</span><br><span class="line-number">278</span><br><span class="line-number">279</span><br><span class="line-number">280</span><br><span class="line-number">281</span><br><span class="line-number">282</span><br><span class="line-number">283</span><br><span class="line-number">284</span><br><span class="line-number">285</span><br><span class="line-number">286</span><br><span class="line-number">287</span><br><span class="line-number">288</span><br><span class="line-number">289</span><br><span class="line-number">290</span><br><span class="line-number">291</span><br><span class="line-number">292</span><br><span class="line-number">293</span><br><span class="line-number">294</span><br><span class="line-number">295</span><br><span class="line-number">296</span><br><span class="line-number">297</span><br><span class="line-number">298</span><br><span class="line-number">299</span><br><span class="line-number">300</span><br><span class="line-number">301</span><br><span class="line-number">302</span><br></div></div><h3 id="启动redis服务"><a href="#启动redis服务" class="header-anchor">#</a> 启动Redis服务</h3> <p>进入bin目录使用 <code>redis-server</code>启动</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code>./redis-server /opt/homebrew/etc/redis/redis-sentinel/redis_6380.conf
+./redis-server /opt/homebrew/etc/redis/redis-sentinel/redis_6381.conf
+./redis-server /opt/homebrew/etc/redis/redis-sentinel/redis_6382.conf
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h3 id="查看redis信息"><a href="#查看redis信息" class="header-anchor">#</a> 查看Redis信息</h3> <p>新版本使用 info replication查看主从信息</p> <p><strong>查看节点信息</strong></p> <p><img src="https://raw.githubusercontent.com/prank-xcw/images/master/imgs/202412031152736.png" alt="image-20241203115233319"></p> <p><img src="https://raw.githubusercontent.com/prank-xcw/images/master/imgs/202412031145191.png" alt="image-20241203104930121"></p> <h2 id="sentinel哨兵模式搭建"><a href="#sentinel哨兵模式搭建" class="header-anchor">#</a> Sentinel哨兵模式搭建</h2> <blockquote><p>哨兵模式是Redis的高可用解决方案，是由一个哨兵或多个哨兵组成，监听主节点，主节点故障后进行选举，选择新的主节点</p></blockquote> <p>conf配置文件:</p> <p>redis-sentinel-16380.conf</p> <p>redis-sentinel_16381.conf</p> <p>redis-sentinel_16382.conf</p> <div class="language-sh line-numbers-mode"><pre class="language-sh"><code><span class="token comment"># Example sentinel.conf   启动哨兵 redis-sentinel /opt/homebrew/etc/redis/redis-sentinel/redis-sentinel.conf</span>
+<span class="token comment">#保护模式</span>
+protected-mode no
+
+<span class="token comment"># 哨兵端口</span>
+port <span class="token number">16381</span>
+
+<span class="token comment"># 是否以守护进程模式后台运行</span>
+daemonize <span class="token function">yes</span>
+
+<span class="token comment"># 因为这里在同一台机器上运行多个实例,所以需要指定</span>
+pidfile <span class="token string">&quot;/var/run/redis-sentinel_16381.pid&quot;</span>
+
+<span class="token comment"># 日志文件名</span>
+logfile <span class="token string">&quot;redis-sentinel_16381.log&quot;</span>
+
+<span class="token comment"># 日志文件路径</span>
+<span class="token function">dir</span> <span class="token string">&quot;/opt/homebrew/etc/redis/log&quot;</span>
+
+<span class="token comment"># sentinel monitor &lt;master-name&gt; &lt;ip&gt; &lt;redis-port&gt; &lt;quorum&gt;</span>
+<span class="token comment"># 哨兵监听的主服务器 主机挂掉以后进行投票，只需要2票就可以从机变主机</span>
+sentinel monitor mymaster <span class="token number">127.0</span>.0.1 <span class="token number">6381</span> <span class="token number">2</span>
+
+<span class="token comment">##当在Redis实例中开启了requirepass，这里就需要提供密码。</span>
+sentinel auth-pass mymaster xcw1017<span class="token operator">!</span>
+
+<span class="token comment"># 设置未得到主机响应时间，此处代表5秒未响应视为宕机</span>
+sentinel down-after-milliseconds mymaster <span class="token number">5000</span>
+
+<span class="token comment"># 故障转移的超时时间failover-timeout，设置一分钟，可以用在以下这些方面：</span>
+<span class="token comment">## 1. 同一个sentinel对同一个master两次failover之间的间隔时间。</span>
+<span class="token comment">## 2. 当一个slave从一个错误的master那里同步数据时开始，直到slave被纠正为从正确的master那里同步数据时结束。</span>
+<span class="token comment">## 3. 当想要取消一个正在进行的failover时所需要的时间。</span>
+<span class="token comment">## 4.当进行failover时，配置所有slaves指向新的master所需的最大时间。不过，即使过了这个超时，slaves依然会被正确配置为指向master，但是就不按parallel-syncs所配置的规则来同步数据了</span>
+<span class="token comment"># sentinel failover-timeout &lt;master-name&gt; &lt;milliseconds&gt;</span>
+sentinel failover-timeout mymaster <span class="token number">60000</span>
+
+<span class="token comment"># 配置当某一事件发生时所需要执行的脚本</span>
+<span class="token comment"># sentinel notification-script &lt;master-name&gt; &lt;script-path&gt;</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br></div></div><h3 id="依次启动哨兵"><a href="#依次启动哨兵" class="header-anchor">#</a> 依次启动哨兵</h3> <p>redis-sentinel /opt/homebrew/etc/redis/redis-sentinel/redis-sentinel_16380.conf</p> <p>redis-sentinel /opt/homebrew/etc/redis/redis-sentinel/redis-sentinel_16381.conf</p> <p>redis-sentinel /opt/homebrew/etc/redis/redis-sentinel/redis-sentinel_16382.conf</p> <p><img src="https://raw.githubusercontent.com/prank-xcw/images/master/imgs/202412031206340.png" alt="image-20241203120629621"></p> <h3 id="查看哨兵信息"><a href="#查看哨兵信息" class="header-anchor">#</a> 查看哨兵信息</h3> <p>执行<code>info sentinel</code> 查看哨兵信息，主节点为 <code>127.0.0.1:6381</code>  从节点2个，哨兵三个</p> <p><img src="https://raw.githubusercontent.com/prank-xcw/images/master/imgs/202412031207259.png" alt="image-20241203120748857"></p></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div></main></div> <!----></div> <ul class="sub-sidebar sub-sidebar-wrapper" style="width:12rem;" data-v-b57cc07c data-v-7dd95ae2><li class="level-2" data-v-b57cc07c><a href="/guide/redis/redis(%E4%B8%89)%E9%9B%86%E7%BE%A4.html#redis安装" class="sidebar-link reco-side-redis安装" data-v-b57cc07c>redis安装</a></li><li class="level-2" data-v-b57cc07c><a href="/guide/redis/redis(%E4%B8%89)%E9%9B%86%E7%BE%A4.html#主从复制" class="sidebar-link reco-side-主从复制" data-v-b57cc07c>主从复制</a></li><li class="level-3" data-v-b57cc07c><a href="/guide/redis/redis(%E4%B8%89)%E9%9B%86%E7%BE%A4.html#启动redis服务" class="sidebar-link reco-side-启动redis服务" data-v-b57cc07c>启动Redis服务</a></li><li class="level-3" data-v-b57cc07c><a href="/guide/redis/redis(%E4%B8%89)%E9%9B%86%E7%BE%A4.html#查看redis信息" class="sidebar-link reco-side-查看redis信息" data-v-b57cc07c>查看Redis信息</a></li><li class="level-2" data-v-b57cc07c><a href="/guide/redis/redis(%E4%B8%89)%E9%9B%86%E7%BE%A4.html#sentinel哨兵模式搭建" class="sidebar-link reco-side-sentinel哨兵模式搭建" data-v-b57cc07c>Sentinel哨兵模式搭建</a></li><li class="level-3" data-v-b57cc07c><a href="/guide/redis/redis(%E4%B8%89)%E9%9B%86%E7%BE%A4.html#依次启动哨兵" class="sidebar-link reco-side-依次启动哨兵" data-v-b57cc07c>依次启动哨兵</a></li><li class="level-3" data-v-b57cc07c><a href="/guide/redis/redis(%E4%B8%89)%E9%9B%86%E7%BE%A4.html#查看哨兵信息" class="sidebar-link reco-side-查看哨兵信息" data-v-b57cc07c>查看哨兵信息</a></li></ul></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/assets/js/app.5dab64d6.js" defer></script><script src="/assets/js/7.bbefbf10.js" defer></script><script src="/assets/js/2.0349392a.js" defer></script><script src="/assets/js/1.83566d30.js" defer></script><script src="/assets/js/79.f91dc5c5.js" defer></script>
+  </body>
+</html>
